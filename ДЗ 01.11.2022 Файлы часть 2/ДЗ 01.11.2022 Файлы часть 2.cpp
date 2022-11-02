@@ -41,7 +41,36 @@ int main()
     do
     {
         std::cout << file_info.name << "\n";
+
+        
+
+
+
+
         search_status = _findnext(hSearch, &file_info);             // вызываем ф-ю _findnext (продолжение поиска)
+        if ((file_info.attrib & _A_SUBDIR) == 0) // если найден файл, то копаем дальше по файлам
+        {
+            std::ifstream reader;
+            const std::string filename = file_info.name;
+            std::cout << filename << "\n";
+
+            reader.open(filename);
+            if (!reader)  // открылся ли файл
+            {
+                std::cout << "Reader open error" << std::endl;
+                return -2;
+            }
+
+            std::string str;
+
+            while (!reader.eof())  // пока не конец файла
+            {
+                //reader >> str;
+                std::getline(reader, str);
+                std::cout << str << "\n";
+            }
+            reader.close();
+        }
 
     } while (search_status == 0);                                   // возвращает успешную операцию
 
