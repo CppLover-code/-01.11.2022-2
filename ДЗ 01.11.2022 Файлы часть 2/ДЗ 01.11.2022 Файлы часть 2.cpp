@@ -118,14 +118,18 @@ int main()
     {
     case 1:
     {
-        char str_f[SIZE] = {};         // переменная для хранения имени файла
+        char str_cin[SIZE] = {}; // "a_file.txt" };         // переменная для хранения имени файла 
+        char str_f[SIZE] = {}; // "./files/a_file.txt" };         // переменная для хранения имени  и пути файла
         char str_mod[SIZE] = {};     // название нового измененного файла
         char str_ins[SIZE] = {};  // слово для замены (ввод пользователя)
 
         std::cout << " Enter file name:\n";
-        std::cin >> str_f;
+        std::cin >> str_cin;
+ 
+        strcpy_s(str_f, folder);
+        strcat_s(str_f, str_cin);  // переменная для хранения имени  и пути файла
 
-        strcpy_s(str_mod, str_f);
+        strcpy_s(str_mod, str_f);  // название нового измененного файла
         strcat_s(str_mod, "_mod");
 
         puts("\nEnter the word to be inserted: \n");
