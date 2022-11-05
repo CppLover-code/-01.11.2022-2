@@ -11,6 +11,11 @@
 #include <fstream>
 #include <string>
 
+const size_t SIZE = 50;
+char folder[SIZE] = {};
+char word[SIZE] = {};
+
+void options();
 
 int main()
 {
@@ -19,11 +24,11 @@ int main()
     _finddata_t file_info;                                          // структура с результатом поиска - инф о найденном файле
     intptr_t hSearch;                                               // handle of search - дескриптор поискового ресурса
 
-    const size_t SIZE = 50;
+    
     char pattern[SIZE] = {};
-    char folder[SIZE] = {};
+    
     char term[SIZE] = { '*' };
-    char word[SIZE] = {};
+    
 
     int fl = 0;       // переменная, которая считает кол-во совпадений среди названий файлов
     int dr = 0;       // переменная, которая считает кол-во совпадений среди названий папок
@@ -104,11 +109,20 @@ int main()
         << " Number of matches in folder names - " << dr << "\n"
         << " Number of matches in file content - " << in << "\n";
 
+    options();
+
+    _findclose(hSearch);
+
+    
+    return 0;
+}
+void options()
+{
     int c = 0;  // переменная для выбора пользователя
     std::cout << "Would you like to change or remove a search word from files?\n"
         << " 1 - change\n"
         << " 2 - remove\n"
-        << " 3 - exit\n";
+        << " 0 - exit\n";
     std::cin >> c;
 
     std::ifstream reader; // файловые переменные для чтения
@@ -125,7 +139,7 @@ int main()
 
         std::cout << " Enter file name:\n";
         std::cin >> str_cin;
- 
+
         strcpy_s(str_f, folder);
         strcat_s(str_f, str_cin);  // переменная для хранения имени  и пути файла
 
@@ -141,13 +155,13 @@ int main()
         if (!reader)                                        // проверка открытия файла для чтения
         {
             std::cout << "Reader open error";
-            return -1;
+            return;
         }
 
         if (!writer)                                        // проверка открытия файла для записи
         {
             std::cout << "Writer open error";
-            return -1;
+            return;
         }
 
         char* p;                                          // указатель на первое совпадение подстроки в строке
@@ -196,18 +210,25 @@ int main()
             writer.flush();
             writer.close();
         }
-        std::cout << " The modified file is located in the project folder!\n";
+        std::cout << " The modified file is located in the project folder!\n\n";
+
+        options();
+
         break;
     }
 
     case 2:
     {
+        char str_cin1[SIZE] = {}; // "a_file.txt" };         // переменная для хранения имени файла 
         char str_f1[SIZE] = {};         // переменная для хранения имени файла
         char str_mod1[SIZE] = {};     // название нового измененного файла
         char str_del[SIZE] = { "" };
 
         std::cout << " Enter file name:\n";
-        std::cin >> str_f1;
+        std::cin >> str_cin1;
+
+        strcpy_s(str_f1, folder);
+        strcat_s(str_f1, str_cin1);  // переменная для хранения имени  и пути файла
 
         strcpy_s(str_mod1, str_f1);
         strcat_s(str_mod1, "_mod");
@@ -218,13 +239,13 @@ int main()
         if (!reader)                                        // проверка открытия файла для чтения
         {
             std::cout << "Reader open error";
-            return -1;
+            return;
         }
 
         if (!writer)                                        // проверка открытия файла для записи
         {
             std::cout << "Writer open error";
-            return -1;
+            return;
         }
 
         char* pos1 = {};                                          // указатель на первое совпадение подстроки в строке
@@ -273,16 +294,12 @@ int main()
             writer.flush();
             writer.close();
         }
-        std::cout << " The modified file is located in the project folder!\n";
+        std::cout << " The modified file is located in the project folder!\n\n";
+        options();
         break;
     }
 
-    case 3:
+    case 0:
         exit(0);
     }
-
-    _findclose(hSearch);
-
-    
-    return 0;
 }
