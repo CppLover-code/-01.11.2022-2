@@ -11,8 +11,6 @@
 #include <fstream>
 #include <string>
 
-void change();
-void remove();
 
 int main()
 {
@@ -66,11 +64,7 @@ int main()
         strcpy_s(str1, folder);
         strcat_s(str1, file_info.name);
 
-        strcpy_s(str2, file_info.name);
-        strcat_s(str2, "_mod");
-
         //std::cout << str1 << "\n";
-        //std::cout << str2 << "\n";
 
         if ((file_info.attrib & _A_SUBDIR) != _A_SUBDIR)  // если найденный элемент является файлом, увеличиваем счетчик
         {
@@ -288,8 +282,3 @@ int main()
     
     return 0;
 }
-void change()
-{
-
-}
-void remove();
